@@ -13,18 +13,18 @@ services:
       - dbgpt-myql-db:/var/lib/mysql
       - ./docker/examples/my.cnf:/etc/my.cnf
       - ./docker/examples/sqls:/docker-entrypoint-initdb.d
-      - ./assets/schema/knowledge_management.sql:/docker-entrypoint-initdb.d/knowledge_management.sql
+      - ./assets/schema/dbgpt.sql:/docker-entrypoint-initdb.d/dbgpt.sql
     restart: unless-stopped
     networks:
       - dbgptnet
   webserver:
-    image: db-gpt:latest
-    command: python3 pilot/server/dbgpt_server.py
+    image: eosphorosai/dbgpt:latest
+    command: python3 dbgpt/app/dbgpt_server.py
     environment:
       - LOCAL_DB_HOST=db
       - LOCAL_DB_PASSWORD=aa123456
       - ALLOWLISTED_PLUGINS=db_dashboard
-      - LLM_MODEL=vicuna-13b
+      - LLM_MODEL=glm-4-9b-chat
     depends_on:
       - db
     volumes:
@@ -36,17 +36,17 @@ services:
     env_file:
       - .env.template
     ports:
-      - 5000:5000/tcp
+      - 5670:5670/tcp
     # webserver may be failed, it must wait all sqls in /docker-entrypoint-initdb.d execute finish.
     restart: unless-stopped
     networks:
       - dbgptnet
+    ipc: host
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              device_ids: ['0']
               capabilities: [gpu]
 volumes:
   dbgpt-myql-db:

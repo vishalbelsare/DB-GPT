@@ -4,12 +4,9 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
-
 message/
-
-.env
-.idea
+dbgpt/util/extensions/
+.env*
 .vscode
 .idea
 .chroma
@@ -27,7 +24,9 @@ sdist/
 
 var/
 wheels/
-models/
+/models/
+# Soft link
+/models
 plugins/
 
 pip-wheel-metadata/
@@ -63,7 +62,7 @@ coverage.xml
 .pytest_cache/
 
 # Translations
-*.mo
+# *.mo
 *.pot
 
 # Django stuff:
@@ -145,7 +144,44 @@ nltk_data
 .vectordb
 pilot/data/
 pilot/nltk_data
+pilot/mock_datas/db-gpt-test.db.wal
 
 logswebserver.log.*
 .history/*
 .plugin_env
+/pilot/meta_data/alembic/versions/*
+/pilot/meta_data/*.db
+# Ignore for now
+thirdparty
+
+#web
+# dependencies
+/web/node_modules
+/web/yarn.lock
+
+.idea
+# next.js
+/web/.next/
+/web/out/
+
+# production
+/web/build
+
+# debug
+/web/npm-debug.log*
+/web/yarn-debug.log*
+/web/yarn-error.log*
+
+# local env files
+/web/.env.prod
+/web/.env
+
+# typescript
+*.tsbuildinfo
+/web/next-env.d.ts
+
+# Ignore awel DAG visualization files
+/examples/**/*.gv
+/examples/**/*.gv.pdf
+/i18n/locales/**/**/*_ai_translated.po
+/i18n/locales/**/**/*~
